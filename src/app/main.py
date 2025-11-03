@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory="src/app/templates")
 
 @app.on_event("startup")
 def _startup():
-start_scheduler(engine)
+    start_scheduler(engine)
 
 
 @app.get("/", response_class=HTMLResponse)
