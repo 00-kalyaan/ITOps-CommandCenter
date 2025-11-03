@@ -24,7 +24,12 @@ def _startup():
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-with Session(engine) as s:
-assets = s.exec(select(Asset)).all()
-tickets_open = s.exec(select(Ticket).where(Ticket.status != "RESOLVED")).all()
-return templates.TemplateResponse("dashboard.html", {"request": request, "assets": assets, "tickets": tickets_open})
+    with Session(engine) as s:
+        assets = s.exec(select(Asset)).all()
+        tickets_open = s.exec(
+            select(Ticket).where(Ticket.status != "RESOLVED")
+        ).all()
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {"request": request, "assets": assets, "tickets": tickets_open},
+    )
