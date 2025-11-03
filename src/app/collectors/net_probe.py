@@ -1,9 +1,10 @@
 import platform
 import subprocess
 import re
+from typing import Optional
 
 
-def ping_host(ip: str) -> float | None:
+def ping_host(ip: str) -> Optional[float]:
     """
     Cross-platform ping function.
     Returns average latency in milliseconds, or None if host unreachable.
@@ -17,7 +18,6 @@ def ping_host(ip: str) -> float | None:
             if result.returncode != 0:
                 return None
 
-            # Parse output for 'time=xxms'
             match = re.search(r"time[=<]\s?(\d+)\s*ms", result.stdout)
             if match:
                 return float(match.group(1))
@@ -30,7 +30,6 @@ def ping_host(ip: str) -> float | None:
             if result.returncode != 0:
                 return None
 
-            # Parse output for 'time=xx.xx ms'
             match = re.search(r"time[=<]\s?(\d+\.?\d*)\s*ms", result.stdout)
             if match:
                 return float(match.group(1))
